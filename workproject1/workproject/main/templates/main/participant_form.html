@@ -1,0 +1,15 @@
+{% extends 'main/layout.html' %}
+
+{% block title %} {% if form.instance.pk %}Редактировать участника{% else %}Добавить участника{% endif %} {% endblock %}
+
+{% block content %}
+<div class="participant-form-container">
+    <h2>{% if form.instance.pk %}Редактировать участника{% else %}Добавить участника{% endif %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="submit-button">{% if form.instance.pk %}Сохранить{% else %}Добавить{% endif %}</button>
+    </form>
+    <a href="{% url 'participant_list' %}" class="back-link">Назад к списку</a>
+</div>
+{% endblock %}
