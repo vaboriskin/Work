@@ -1,0 +1,15 @@
+{% extends 'main/layout.html' %}
+
+{% block title %} Главная страница {% endblock %}
+
+{% block content %}
+
+<div class="button-container">
+    <a href="{% url 'participant_list' %}">
+        <button class="my-button">
+            <i class="fa-solid fa-person"></i> Добавить участников
+        </button>
+    </a>
+</div>
+
+{% endblock %}

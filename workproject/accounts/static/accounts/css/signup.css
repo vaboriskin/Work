@@ -1,0 +1,62 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2D4356; /* Цвет фона страницы */
+}
+
+.container {
+    max-width: 400px; /* Максимальная ширина контейнера */
+    margin: 50px auto; /* Центрирование контейнера */
+    padding: 20px;
+    background-color: white; /* Цвет фона контейнера */
+    border-radius: 8px; /* Скругление углов */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Тень */
+}
+
+h2 {
+    text-align: center; /* Центрирование заголовка */
+}
+
+.form-group {
+    margin-bottom: 15px; /* Отступ между группами полей */
+}
+
+label {
+    display: block; /* Отображение меток в отдельной строке */
+    margin-bottom: 5px; /* Отступ под меткой */
+}
+
+.form-input {
+    width: 90%; /* Задаем ширину поля ввода в процентах от контейнера */
+    max-width: 300px; /* Максимальная ширина поля ввода */
+    padding: 10px; /* Отступ внутри поля */
+    border: 1px solid #ccc; /* Рамка поля */
+    border-radius: 4px; /* Скругление углов поля */
+    margin: 0 auto; /* Центрирование поля */
+    display: block; /* Делаем поле блочным элементом для центрирования */
+}
+
+.form-input:focus {
+    border-color: #007BFF; /* Цвет рамки при фокусировке */
+    outline: none; /* Удаление обводки по умолчанию */
+}
+
+.error {
+    color: red; /* Цвет текста ошибок */
+    font-size: 0.9em; /* Размер шрифта ошибок */
+    margin-top: 5px; /* Отступ сверху для ошибок */
+}
+
+.submit-btn {
+    width: 100%; /* Полная ширина кнопки */
+    padding: 10px; /* Отступ внутри кнопки */
+    background-color: #435B66; /* Цвет кнопки */
+    color: white; /* Цвет текста кнопки */
+    border: none; /* Удаление рамки */
+    border-radius: 4px; /* Скругление углов кнопки */
+    cursor: pointer; /* Указатель при наведении */
+}
+
+.submit-btn:hover {
+    background-color: #1E201E; /* Темный цвет кнопки при наведении */
+}
+

@@ -1,0 +1,89 @@
+.container {
+    width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+h2 {
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button.btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: brown;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.btn:hover {
+    background-color: darkbrown;
+}
+
+.success {
+    color: green;
+    text-align: center;
+}
+
+
+header {
+    background-color: #E4E0E1;
+    padding: 15px 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+}
+
+.navbar-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    align-items: center;
+}
+
+.navbar-menu li {
+    display: inline-block;
+}
+
+.navbar-menu .logout {
+    margin-left: auto; /* Размещает элемент Выйти справа */
+}
+
+.navbar-menu a {
+    font-size: 18px;
+    color: #493628;
+    text-decoration: none;
+    padding: 10px 15px;
+    transition: color 0.3s ease;
+}
+
+.navbar-menu a:hover {
+    color: #777ae0;
+}
