@@ -1,0 +1,34 @@
+{% if participant %}
+    <h2>Участник #{{ participant.number }}: {{ participant.name }}</h2>
+
+    {% if scores %}
+        <table class="table table-bordered table-hover" id="scoresTable">
+            <thead>
+                <tr>
+                    <th>Жюри</th>
+                    <th>Техника</th>
+                    <th>Композиция</th>
+                    <th>Креативность</th>
+                    <th>Впечатление</th>
+                    <th>Средний балл</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for score in scores %}
+                    <tr>
+                        <td>{{ score.jury.username }}</td>
+                        <td>{{ score.technique }}</td>
+                        <td>{{ score.composition }}</td>
+                        <td>{{ score.creativity }}</td>
+                        <td>{{ score.impression }}</td>
+                        <td>{{ score.get_average_score|floatformat:2 }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Для этого участника пока нет оценок.</p>
+    {% endif %}
+{% else %}
+    <p>Участник не найден.</p>
+{% endif %}

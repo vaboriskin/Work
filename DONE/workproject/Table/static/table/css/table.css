@@ -1,0 +1,90 @@
+
+.container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+header {
+    background-color: #E4E0E1;
+    padding: 15px 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+
+}
+
+.navbar-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    align-items: center;
+}
+
+.navbar-menu li {
+    display: inline-block;
+}
+
+.navbar-menu .logout {
+    margin-left: auto; /* Размещает элемент Выйти справа */
+}
+
+.navbar-menu a {
+    font-size: 18px;
+    color: #493628;
+    text-decoration: none;
+    padding: 10px 15px;
+    transition: color 0.3s ease;
+}
+
+.navbar-menu a:hover {
+    color: #777ae0;
+}
+
+h2 {
+    text-align: center;
+}
+/* Таблица */
+        .table {
+            margin-top: 20px;
+        }
+
+        .table thead th {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+        }
+
+        .table tbody td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f8f9fa;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #e9ecef;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }

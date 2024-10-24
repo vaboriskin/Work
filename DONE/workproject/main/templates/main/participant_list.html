@@ -1,0 +1,47 @@
+{% extends 'main/layout.html' %}
+
+{% block title %} Участники {% endblock %}
+
+
+
+{% block content %}
+<script>
+        function confirmDelete() {
+            return confirm("Вы действительно хотите удалить всех участников?");
+        }
+    </script>
+ <div class="container">
+        <h2>Список участников</h2>
+
+        <a href="{% url 'participant_create' %}" class="add-participant">Добавить нового участника</a>
+        <form method="post" action="{% url 'delete_all_participants' %}" style="display: inline;" onsubmit="return confirmDelete();">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Удалить всех участников</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>#Номер</th>
+                    <th>Название</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for participant in participants %}
+                <tr>
+                    <td>#{{ participant.number }}</td>
+                    <td>{{ participant.name }}</td>
+                    <td>
+                        <a href="{% url 'participant_edit' participant.pk %}">Редактировать</a> |
+                        <a href="{% url 'participant_delete' participant.pk %}">Удалить</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}
+
+
