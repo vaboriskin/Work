@@ -5,6 +5,7 @@ body {
     padding: 0;
 }
 
+/* Основные стили для шапки */
 header {
     background-color: #E4E0E1;
     padding: 15px 0;
@@ -13,12 +14,10 @@ header {
 .navbar {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Позволяет перенос элементов на новую строку */
 }
 
-.navbar-menu .username {
-    color: #493628; /* Цвет текста для имени пользователя */
-
-}
 .navbar-menu {
     list-style: none;
     margin: 0;
@@ -27,6 +26,7 @@ header {
     gap: 20px;
     width: 100%;
     align-items: center;
+    justify-content: center; /* Центрирует элементы по горизонтали */
 }
 
 .navbar-menu li {
@@ -34,7 +34,7 @@ header {
 }
 
 .navbar-menu .logout {
-    margin-left: auto; /* Размещает элемент Выйти справа */
+    margin-left: auto; /* Перемещает элемент "Выйти" вправо */
 }
 
 .navbar-menu a {
@@ -48,6 +48,19 @@ header {
 .navbar-menu a:hover {
     color: #777ae0;
 }
+
+/* Адаптивные стили для мобильных устройств */
+@media (max-width: 768px) {
+    .navbar-menu {
+        flex-direction: column; /* Переводит меню в вертикальный вид */
+        gap: 10px;
+    }
+    .navbar-menu a {
+        font-size: 16px; /* Уменьшает размер шрифта на мобильных */
+        padding: 8px 12px;
+    }
+}
+
 
 
 /* Центрирование кнопки на странице */

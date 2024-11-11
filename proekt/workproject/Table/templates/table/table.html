@@ -30,102 +30,78 @@
     </nav>
 </header>
 <div class="container mt-5">
-    <h1>Оценки участника</h1>
 
-    <form id="participantForm" method="post" class="mb-3">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Показать оценки</button>
-    </form>
 
-    <!-- Блок для сообщения об ошибке -->
-    {% if error_message %}
-        <div class="alert alert-danger" role="alert">
-            {{ error_message }}
-        </div>
-    {% endif %}
-
-    <!-- Блок для отображения участника и его оценок -->
     <div id="scoresContainer">
-        {% if participant %}
-            <h2 id="participant">Участник #{{ participant.number }}: {{ participant.name }}</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Участник</th>
+                        <th>Жюри</th>
+                        <th>Техника</th>
+                        <th>Композиция</th>
+                        <th>Креативность</th>
+                        <th>Впечатление</th>
 
-            {% if scores %}
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead>
+                    </tr>
+                </thead>
+                <tbody id="scoresBody">
+                    {% for participant, scores in all_scores.items %}
+                        {% for score in scores %}
                             <tr>
-                                <th>Жюри</th>
-                                <th>Техника</th>
-                                <th>Композиция</th>
-                                <th>Креативность</th>
-                                <th>Впечатление</th>
-                                <th>Средний балл</th>
+                                <td>#{{ participant.number }}: {{ participant.name }}</td>
+                                <td>{{ score.jury }}</td>
+                                <td>{{ score.technique }}</td>
+                                <td>{{ score.composition }}</td>
+                                <td>{{ score.creativity }}</td>
+                                <td>{{ score.impression }}</td>
+
                             </tr>
-                        </thead>
-                        <tbody id="scoresBody">
-                            {% for score in scores %}
-                                <tr>
-                                    <td>{{ score.jury.username }}</td>
-                                    <td>{{ score.technique }}</td>
-                                    <td>{{ score.composition }}</td>
-                                    <td>{{ score.creativity }}</td>
-                                    <td>{{ score.impression }}</td>
-                                    <td>{{ score.get_average_score|floatformat:2 }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            {% else %}
-                <p>Для этого участника пока нет оценок.</p>
-            {% endif %}
-        {% else %}
-            <p>Выберите участника, чтобы увидеть его оценки.</p>
-        {% endif %}
+                        {% empty %}
+                            <tr>
+                                <td colspan="7">Для участника {{ participant.number }} пока нет оценок.</td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
 <script>
     setInterval(function() {
-    const participantId = "{{ participant.id|default:'' }}"; // Получаем ID участника из шаблона
-
-    if (participantId) { // Убедитесь, что ID участника существует
-        console.log("Отправляем запрос на обновление оценок для участника с ID:", participantId); // Лог для проверки выполнения
-
         $.ajax({
-            url: "{% url 'get_scores' '0' %}".replace('0', participantId), // URL для получения оценок
+            url: "{% url 'get_all_scores' %}",
             type: "GET",
             success: function(data) {
-                console.log("Получены новые данные:", data); // Лог для проверки полученных данных
-                // Обновляем таблицу оценок
                 const scoresBody = $('#scoresBody');
-                scoresBody.empty(); // Очищаем текущее содержимое таблицы
+                scoresBody.empty();
 
                 if (data.length > 0) {
                     data.forEach(function(score) {
                         scoresBody.append(`
                             <tr>
+                                <td>#${score.participant_number}: ${score.participant_name}</td>
                                 <td>${score.jury}</td>
                                 <td>${score.technique}</td>
                                 <td>${score.composition}</td>
                                 <td>${score.creativity}</td>
                                 <td>${score.impression}</td>
-                                <td>${score.average_score.toFixed(2)}</td>
+
                             </tr>
                         `);
                     });
                 } else {
-                    scoresBody.append('<tr><td colspan="6">Для этого участника пока нет оценок.</td></tr>');
+                    scoresBody.append('<tr><td colspan="7">Для участников пока нет оценок.</td></tr>');
                 }
             },
             error: function(xhr, status, error) {
                 console.error("Ошибка:", error);
             }
         });
-    }
-}, 5000); // Обновление каждые 5 секунд
-
+    }, 1000); // Обновление
 </script>
 </body>
 </html>

@@ -41,18 +41,51 @@ def participant_scores(request):
     })
 
 
-def get_scores(request, participant_id):
-    if request.method == 'GET':
-        scores = Score.objects.filter(participant_id=participant_id).select_related('jury')
-        scores_data = []
-        for score in scores:
-            scores_data.append({
+
+
+def get_all_scores(request):
+    participants = Participant.objects.all()
+    all_scores_data = []
+
+    for participant in participants:
+        scores = Score.objects.filter(participant=participant)
+        participant_scores = [
+            {
+                'participant_number': participant.number,
+                'participant_name': participant.name,
                 'jury': score.jury.username,
                 'technique': score.technique,
                 'composition': score.composition,
                 'creativity': score.creativity,
                 'impression': score.impression,
-                'average_score': score.get_average_score(),
-            })
-        return JsonResponse(scores_data, safe=False)
 
+            }
+            for score in scores
+        ]
+        all_scores_data.extend(participant_scores)
+
+    return JsonResponse(all_scores_data, safe=False)
+
+
+def all_participants_scores(request):
+    participants = Participant.objects.all()
+    all_scores = {}
+
+    for participant in participants:
+        scores = Score.objects.filter(participant=participant)
+        scores_data = [
+            {
+                'jury': score.jury.username,
+                'technique': score.technique,
+                'composition': score.composition,
+                'creativity': score.creativity,
+                'impression': score.impression,
+
+            }
+            for score in scores
+        ]
+        all_scores[participant] = scores_data
+
+    return render(request, 'Table/table.html', {
+        'all_scores': all_scores,
+    })
