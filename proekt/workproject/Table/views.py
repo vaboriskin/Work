@@ -15,14 +15,14 @@ def get_all_scores(request):
         # Если у участника нет оценок, можно вручную добавить пустые значения
         if not scores:
             participant_scores = [{
-                'jury': 'Нет данных',
+                'jury': "-",
                 'participant_number': participant.number,
                 'participant_name': participant.name,
-                'technique': 0,
-                'composition': 0,
-                'creativity': 0,
-                'impression': 0,
-                'score_sum': 0  # Сумма баллов для участника без оценок
+                'technique': "-",
+                'composition': "-",
+                'creativity': "-",
+                'impression': "-",
+                'score_sum': ""  # Сумма баллов для участника без оценок
             }]
         else:
             participant_scores = [
