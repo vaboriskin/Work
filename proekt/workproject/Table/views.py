@@ -4,45 +4,6 @@ from vote.models import Score
 from .forms import ParticipantSearchForm
 from django.http import JsonResponse
 
-
-def participant_scores(request):
-    form = ParticipantSearchForm()
-    participant = None
-    scores = None
-    error_message = None  # Переменная для хранения сообщения об ошибке
-
-    if request.method == 'POST':
-        form = ParticipantSearchForm(request.POST)
-        if form.is_valid():
-            number = form.cleaned_data['number']
-            try:
-                participant = Participant.objects.get(number=number)
-                scores = Score.objects.filter(participant=participant)
-
-                # Проверяем, является ли запрос AJAX
-                if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                    return render(request, 'Table/scores_table.html', {
-                        'participant': participant,
-                        'scores': scores,
-                    })
-
-            except Participant.DoesNotExist:
-                error_message = "Неверный номер участника"
-
-                if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                    return JsonResponse({'error': error_message})
-
-    # Возвращаем полный шаблон для обычного запроса
-    return render(request, 'Table/table.html', {
-        'form': form,
-        'participant': participant,
-        'scores': scores,
-        'error_message': error_message,
-    })
-
-
-
-
 def get_all_scores(request):
     participants = Participant.objects.all()
     all_scores_data = []

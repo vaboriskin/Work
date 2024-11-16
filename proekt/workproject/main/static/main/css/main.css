@@ -1,66 +1,144 @@
 body {
     font-family: Arial, sans-serif;
-    background: #D6C0B3;
+    background: #2B2E4A;
     margin: 0;
     padding: 0;
 }
 
 /* Основные стили для шапки */
-header {
-    background-color: #E4E0E1;
-    padding: 15px 0;
-}
-
-.navbar {
+.header {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap; /* Позволяет перенос элементов на новую строку */
+    align-items: center; /* Вертикальное выравнивание */
+    justify-content: space-between; /* Элементы по краям */
+    min-height: 70px; /* Высота шапки */
+    background-color: #903749;
+    padding: 0 20px; /* Горизонтальные отступы */
 }
 
-.navbar-menu {
-    list-style: none;
-    margin: 0;
+.nav {
+    display: flex;
+    justify-content: center; /* Центрируем элементы навигации */
+    width: 100%; /* Растягиваем на всю ширину */
     padding: 0;
+}
+
+.nav ul {
     display: flex;
-    gap: 20px;
-    width: 100%;
-    align-items: center;
-    justify-content: center; /* Центрирует элементы по горизонтали */
+    list-style: none;
+    gap: 20px; /* Отступы между элементами */
+    margin: 0; /* Убираем внешние отступы */
+    padding: 0; /* Убираем внутренние отступы */
 }
 
-.navbar-menu li {
-    display: inline-block;
-}
-
-.navbar-menu .logout {
-    margin-left: auto; /* Перемещает элемент "Выйти" вправо */
-}
-
-.navbar-menu a {
-    font-size: 18px;
-    color: #493628;
+.nav li a {
+    color: white;
     text-decoration: none;
-    padding: 10px 15px;
-    transition: color 0.3s ease;
+    padding: 10px 15px; /* Одинаковые отступы сверху, снизу, слева и справа */
+    display: flex;
+    align-items: center; /* Центрирование иконок и текста */
+    font-size: 18px;
 }
 
-.navbar-menu a:hover {
+.nav li a:hover {
     color: #777ae0;
 }
 
-/* Адаптивные стили для мобильных устройств */
+/* Бургер */
+.burger {
+    display: none;
+    position: absolute;
+    right: 20px;
+    z-index: 51;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 24px; /* Высота контейнера */
+    cursor: pointer;
+    position: relative;
+}
+
+.burger span {
+    position: absolute; /* Абсолютное позиционирование линий внутри контейнера */
+    height: 2px;
+    width: 100%;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+.burger span.middle {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.burger span.top {
+    top: 0; /* Верхняя линия */
+}
+
+.burger span.bottom {
+    bottom: 0; /* Нижняя линия */
+}
+
+/* Анимация при активации */
+.burger.active span.middle {
+    opacity: 0; /* Прячем центральную линию */
+}
+
+.burger.active span.top {
+    transform: translateY(12px) rotate(-45deg);
+}
+
+.burger.active span.bottom {
+    transform: translateY(-12px) rotate(45deg);
+}
+
+
+
+/* Адаптивные стили */
 @media (max-width: 768px) {
-    .navbar-menu {
-        flex-direction: column; /* Переводит меню в вертикальный вид */
-        gap: 10px;
+    .burger {
+        display: flex; /* Показываем бургер */
     }
-    .navbar-menu a {
-        font-size: 16px; /* Уменьшает размер шрифта на мобильных */
-        padding: 8px 12px;
+
+    .nav {
+        display: none; /* Скрываем меню по умолчанию */
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #34374C;
+        padding: 100px 20px;
+        z-index: 50;
+        overflow-y: auto;
+    }
+
+    .nav.open {
+        display: flex; /* Показываем меню, если оно открыто */
+        animation: burgerAnimation 0.4s;
+    }
+
+    .nav ul {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .nav li a {
+        font-size: 18px;
+        text-align: center;
     }
 }
 
+@keyframes burgerAnimation {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 
 
 /* Центрирование кнопки на странице */

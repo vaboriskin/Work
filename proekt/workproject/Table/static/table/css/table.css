@@ -1,3 +1,9 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #D6C0B3;
+    margin: 0;
+    padding: 0;
+}
 
 .container {
             background-color: #fff;
@@ -33,9 +39,7 @@ header {
     display: inline-block;
 }
 
-.navbar-menu .logout {
-    margin-left: auto; /* Перемещает элемент "Выйти" вправо */
-}
+
 
 .navbar-menu a {
     font-size: 18px;

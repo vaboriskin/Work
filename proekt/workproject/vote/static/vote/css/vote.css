@@ -81,9 +81,7 @@ header {
     display: inline-block;
 }
 
-.navbar-menu .logout {
-    margin-left: auto; /* Размещает элемент Выйти справа */
-}
+
 
 .navbar-menu a {
     font-size: 18px;
