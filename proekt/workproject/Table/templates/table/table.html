@@ -9,12 +9,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.6.0/css/all.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <style>
-       body {
-            background-color: #b7b7b7; /* Изменяем цвет фона страницы */
+        body {
+        font-family: Arial, sans-serif;
+        background: #2B2E4A;
+        margin: 0;
+        padding: 0;
         }
-
     </style>
 </head>
 <body>
@@ -29,79 +30,133 @@
         </ul>
     </nav>
 </header>
-<div class="container mt-5">
 
-
-    <div id="scoresContainer">
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Участник</th>
-                        <th>Жюри</th>
-                        <th>Техника</th>
-                        <th>Композиция</th>
-                        <th>Креативность</th>
-                        <th>Впечатление</th>
-
-                    </tr>
-                </thead>
-                <tbody id="scoresBody">
-                    {% for participant, scores in all_scores.items %}
-                        {% for score in scores %}
-                            <tr>
-                                <td>#{{ participant.number }}: {{ participant.name }}</td>
-                                <td>{{ score.jury }}</td>
-                                <td>{{ score.technique }}</td>
-                                <td>{{ score.composition }}</td>
-                                <td>{{ score.creativity }}</td>
-                                <td>{{ score.impression }}</td>
-
-                            </tr>
-                        {% empty %}
-                            <tr>
-                                <td colspan="7">Для участника {{ participant.number }} пока нет оценок.</td>
-                            </tr>
-                        {% endfor %}
+<div class="container">
+    <!-- Основная таблица с оценками участников -->
+    <div class="main-table-container">
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Жюри</th>
+                    <th>Участник</th>
+                    <th>Техника</th>
+                    <th>Композиция</th>
+                    <th>Креативность</th>
+                    <th>Впечатление</th>
+                    <th>Сумма баллов</th> <!-- Добавляем колонку с суммой баллов -->
+                </tr>
+            </thead>
+            <tbody id="scoresBody">
+                {% for participant, scores in all_scores.items %}
+                    {% for score in scores.scores %}
+                        <tr>
+                            <td>{{ score.jury }}</td>
+                            <td>#{{ participant.number }}: {{ participant.name }}</td>
+                            <td>{{ score.technique }}</td>
+                            <td>{{ score.composition }}</td>
+                            <td>{{ score.creativity }}</td>
+                            <td>{{ score.impression }}</td>
+                            <td>{{ score.score_sum }}</td> <!-- Сумма баллов для каждого участника -->
+                        </tr>
                     {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Таблица с рейтингом -->
+    <div class="ranking-table-container">
+        <table class="table table-bordered table-striped table-hover ranking-table">
+            <thead>
+                <tr>
+                    <th>Место</th>
+                    <th>Участник</th>
+                    <th>Сумма баллов</th>
+                </tr>
+            </thead>
+            <tbody id="rankingBody">
+                {% for participant in ranked_participants %}
+                    <tr>
+                        <td>{{ participant.rank }}</td>
+                        <td>#{{ participant.participant_number }}: {{ participant.participant_name }}</td>
+                        <td>{{ participant.total_score }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 
 <script>
-    setInterval(function() {
-        $.ajax({
-            url: "{% url 'get_all_scores' %}",
-            type: "GET",
-            success: function(data) {
-                const scoresBody = $('#scoresBody');
-                scoresBody.empty();
+   setInterval(function() {
+    $.ajax({
+        url: "{% url 'get_all_scores' %}",
+        type: "GET",
+        success: function(data) {
+            const scoresBody = $('#scoresBody');  // Контейнер для основной таблицы
+            const rankingBody = $('#rankingBody');  // Контейнер для рейтинга
 
-                if (data.length > 0) {
-                    data.forEach(function(score) {
-                        scoresBody.append(`
-                            <tr>
-                                <td>#${score.participant_number}: ${score.participant_name}</td>
-                                <td>${score.jury}</td>
-                                <td>${score.technique}</td>
-                                <td>${score.composition}</td>
-                                <td>${score.creativity}</td>
-                                <td>${score.impression}</td>
+            scoresBody.empty();  // Очищаем старые данные
+            rankingBody.empty();  // Очищаем старые данные
 
-                            </tr>
-                        `);
-                    });
-                } else {
-                    scoresBody.append('<tr><td colspan="7">Для участников пока нет оценок.</td></tr>');
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Ошибка:", error);
+            if (data.length > 0) {
+                let rankedParticipants = [];
+
+                // Обрабатываем каждую запись
+                data.forEach(function(score) {
+                    // Добавляем данные в основную таблицу
+                    scoresBody.append(`
+                        <tr>
+                            <td class="jury-column">${score.jury}</td>
+                            <td>#${score.participant_number}: ${score.participant_name}</td>
+                            <td>${score.technique}</td>
+                            <td>${score.composition}</td>
+                            <td>${score.creativity}</td>
+                            <td>${score.impression}</td>
+                            <td>${score.score_sum || 0}</td> <!-- Проверка на наличие score_sum -->
+                        </tr>
+                    `);
+
+                    // Проверка, если участник уже добавлен в список
+                    let participant = rankedParticipants.find(p => p.participant_number === score.participant_number);
+                    if (!participant) {
+                        participant = {
+                            rank: rankedParticipants.length + 1,
+                            participant_number: score.participant_number,
+                            participant_name: score.participant_name,
+                            total_score: 0,
+                        };
+                        rankedParticipants.push(participant);
+                    }
+
+                    // Добавляем баллы участника
+                    participant.total_score += score.score_sum || 0;
+                });
+
+                // Сортируем участников по сумме баллов
+                rankedParticipants.sort((a, b) => b.total_score - a.total_score);
+
+                // Добавляем данные в таблицу рейтинга
+                rankedParticipants.forEach(function(participant, index) {
+                    rankingBody.append(`
+                        <tr>
+                            <td>${index + 1}</td> <!-- Место в рейтинге -->
+                            <td>#${participant.participant_number}: ${participant.participant_name}</td>
+                            <td>${participant.total_score}</td>
+                        </tr>
+                    `);
+                });
+            } else {
+                scoresBody.append('<tr><td colspan="7">Нет данных для участников.</td></tr>');
+                rankingBody.append('<tr><td colspan="3">Нет данных для рейтинга.</td></tr>');
             }
-        });
-    }, 1000); // Обновление
+        },
+        error: function(xhr, status, error) {
+            console.error("Ошибка:", error);
+        }
+    });
+}, 1000);  // Обновление данных каждую секунду
 </script>
+
 </body>
 </html>

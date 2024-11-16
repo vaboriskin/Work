@@ -1,15 +1,12 @@
-body {
-    font-family: Arial, sans-serif;
-    background: #D6C0B3;
-    margin: 0;
-    padding: 0;
-}
+
 
 .container {
             background-color: #fff;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex; /* Используем flexbox для расположения колонок */
+            justify-content: space-between;
         }
 /* Основные стили для шапки */
 header {
@@ -65,45 +62,131 @@ header {
     }
 }
 
-h2 {
+
+/* Таблица */
+/* Стили для колонки "Жюри" */
+/* Контейнер для обеих таблиц (основной таблицы и таблицы рейтинга) */
+/* Контейнер для таблиц */
+/* Контейнер для таблиц */
+.scores-container {
+    display: flex;
+    justify-content: center; /* Выравнивание таблиц по центру */
+    gap: 30px; /* Расстояние между таблицами */
+    padding-top: 20px;
+    width: 100%; /* Занимаем всю ширину экрана */
+    height: 100vh; /* Занимаем всю высоту экрана */
+    flex-direction: column; /* Таблицы будут располагаться одна за другой */
+    overflow: auto; /* Разрешаем прокрутку при переполнении */
+}
+
+/* Контейнер для основной таблицы */
+.main-table-container {
+    width: 100%;
+    max-width: 1200px; /* Ограничиваем максимальную ширину основной таблицы */
+    margin-bottom: 20px; /* Отступ снизу между таблицами */
+    flex-grow: 1; /* Основная таблица будет растягиваться */
+}
+
+/* Контейнер для таблицы рейтинга */
+.ranking-table-container {
+    width: 100%;
+    max-width: 1200px; /* Ограничиваем максимальную ширину таблицы рейтинга */
+    margin-top: 0;
+    background-color: #F5F5F5;  /* Цвет фона таблицы рейтинга */
+    border-radius: 10px;
+    padding: 20px;
+    flex-grow: 1; /* Таблица рейтинга будет растягиваться */
+}
+
+/* Для всех ячеек таблицы */
+.table td, .table th {
+    white-space: nowrap; /* Запрещаем перенос текста */
+}
+
+/* Стили для основной таблицы */
+.table {
+    width: 100%;
+    margin: 0;
+    border-collapse: separate; /* Отменяем слияние границ ячеек */
+    border-spacing: 0 10px; /* Отступы между строками */
+}
+
+/* Стили для ячеек основной таблицы */
+.table thead th {
+    background-color: #007bff;
+    color: white;
     text-align: center;
 }
-/* Таблица */
-        .table {
-            margin-top: 20px;
-        }
 
-        .table thead th {
-            background-color: #007bff;
-            color: white;
-            text-align: center;
-        }
+.table tbody td {
+    text-align: center;
+    vertical-align: middle;
+}
 
-        .table tbody td {
-            text-align: center;
-            vertical-align: middle;
-        }
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f8f9fa;
+}
 
-        .table-striped tbody tr:nth-of-type(odd) {
-            background-color: #f8f9fa;
-        }
+.table-hover tbody tr:hover {
+    background-color: #e9ecef;
+}
 
-        .table-hover tbody tr:hover {
-            background-color: #e9ecef;
-        }
+/* Стили для колонки "Жюри" */
+.jury-column {
+    background-color: #f8f9fa; /* Цвет фона для колонки */
+    font-weight: bold; /* Жирное начертание для выделения */
+    padding-left: 20px; /* Отступ слева */
+    text-align: left; /* Выравнивание текста влево */
+    border-right: 2px solid #007bff; /* Правая граница для разделения */
+}
 
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
+/* Стили для таблицы рейтинга */
+.ranking-table-container table {
+    width: 100%;
+    border-collapse: collapse;  /* Для объединения границ ячеек */
+}
 
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #004085;
-        }
+/* Стили для заголовков и ячеек таблицы рейтинга */
+.ranking-table-container th,
+.ranking-table-container td {
+    text-align: center;
+    padding: 12px;
+}
 
-        .alert-danger {
-            background-color: #f8d7da;
-            border-color: #f5c6cb;
-            color: #721c24;
-        }
+/* Стили для заголовков таблицы рейтинга */
+.ranking-table-container th {
+    background-color: #4CAF50;  /* Зеленый цвет для заголовков */
+    color: white;
+}
+
+.ranking-table-container td {
+    background-color: #fff;
+}
+
+/* Убираем линии между ячейками, но оставляем разделение строк */
+.ranking-table-container td,
+.ranking-table-container th {
+    border-left: 1px solid #ddd;  /* Добавляем границы слева */
+    border-top: 1px solid #ddd;   /* Добавляем верхнюю границу */
+}
+
+/* Убираем левую границу для первой колонки */
+.ranking-table-container td:first-child,
+.ranking-table-container th:first-child {
+    border-left: none;
+}
+
+/* Убираем верхнюю границу для первой строки */
+.ranking-table-container tr:first-child th {
+    border-top: none;
+}
+
+/* Убираем нижнюю границу для последней строки */
+.ranking-table-container tr:last-child td {
+    border-bottom: none;
+}
+
+/* Линии разделяющие только строки */
+.ranking-table-container tr:not(:last-child) td {
+    border-bottom: 1px solid #ddd;  /* Линии только между строками */
+}
